@@ -53,6 +53,13 @@ public class Report {
     @Column(name = "title", length = 255, nullable = false)
     private String title;
 
+    @Column(name = "time_in", length = 255, nullable = false)
+    private String time_in;
+
+    @Column(name = "time_out", length = 255, nullable = false)
+    private String time_out;
+
+
     @Lob
     @Column(name = "content", nullable = false)
     private String content;
