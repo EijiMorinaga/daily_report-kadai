@@ -13,26 +13,14 @@ import javax.persistence.Table;
 
 @Table(name = "employees")
 @NamedQueries({
-    //すべての従業員情報を取得
-    @NamedQuery(
-        name = "getAllEmployees",
-        query = "SELECT e FROM Employee AS e ORDER BY e.id DESC"
-    ),
-    //従業員情報の全件数を取得
-    @NamedQuery(
-        name = "getEmployeesCount",
-        query = "SELECT COUNT(e) FROM Employee AS e"
-    ),
-    //指定された社員番号がすでにデータベースに存在しているかを調べます。
-    @NamedQuery(
-        name = "checkRegisteredCode",
-        query = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :code"
-    ),
-    //従業員がログインするときに社員番号とパスワードが正しいかをチェックするためのもの
-    @NamedQuery(
-        name = "checkLoginCodeAndPassword",
-        query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass"
-    )
+        //すべての従業員情報を取得
+        @NamedQuery(name = "getAllEmployees", query = "SELECT e FROM Employee AS e ORDER BY e.id DESC"),
+        //従業員情報の全件数を取得
+        @NamedQuery(name = "getEmployeesCount", query = "SELECT COUNT(e) FROM Employee AS e"),
+        //指定された社員番号がすでにデータベースに存在しているかを調べます。
+        @NamedQuery(name = "checkRegisteredCode", query = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :code"),
+        //従業員がログインするときに社員番号とパスワードが正しいかをチェックするためのもの
+        @NamedQuery(name = "checkLoginCodeAndPassword", query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass")
 })
 @Entity
 public class Employee {

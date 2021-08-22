@@ -35,23 +35,28 @@ public class ReportsCreateServlet extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String _token = request.getParameter("_token");
-        if(_token != null && _token.equals(request.getSession().getId())) {
+        if (_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
 
             Report r = new Report();
 
-            r.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
+            r.setEmployee((Employee) request.getSession().getAttribute("login_employee"));
 
             Date report_date = new Date(System.currentTimeMillis());
             String rd_str = request.getParameter("report_date");
-            if(rd_str != null && !rd_str.equals("")) {
+            if (rd_str != null && !rd_str.equals("")) {
                 report_date = Date.valueOf(request.getParameter("report_date"));
             }
             r.setReport_date(report_date);
 
             r.setTitle(request.getParameter("title"));
+            r.setTime_in_hour(String.format("%02d", Integer.parseInt(request.getParameter("time_in_hour"))));
+            r.setTime_in_minute(String.format("%02d", Integer.parseInt(request.getParameter("time_in_minute"))));
+            r.setTime_out_hour(String.format("%02d", Integer.parseInt(request.getParameter("time_out_hour"))));
+            r.setTime_out_minute(String.format("%02d", Integer.parseInt(request.getParameter("time_out_minute"))));
             r.setContent(request.getParameter("content"));
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -59,7 +64,7 @@ public class ReportsCreateServlet extends HttpServlet {
             r.setUpdated_at(currentTime);
 
             List<String> errors = ReportValidator.validate(r);
-            if(errors.size() > 0) {
+            if (errors.size() > 0) {
                 em.close();
 
                 request.setAttribute("_token", request.getSession().getId());

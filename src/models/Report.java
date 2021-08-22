@@ -17,23 +17,11 @@ import javax.persistence.Table;
 
 @Table(name = "reports")
 @NamedQueries({
-    @NamedQuery(
-        name = "getAllReports",
-        query = "SELECT r FROM Report AS r ORDER BY r.id DESC"
-    ),
-    @NamedQuery(
-        name = "getReportsCount",
-        query = "SELECT COUNT(r) FROM Report AS r"
-    ),
-    @NamedQuery(
-            name = "getMyAllReports",
-            query = "SELECT r FROM Report AS r WHERE r.employee = :employee ORDER BY r.id DESC"
-        ),
-        @NamedQuery(
-            name = "getMyReportsCount",
-            query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :employee"
-        )
-    })
+        @NamedQuery(name = "getAllReports", query = "SELECT r FROM Report AS r ORDER BY r.id DESC"),
+        @NamedQuery(name = "getReportsCount", query = "SELECT COUNT(r) FROM Report AS r"),
+        @NamedQuery(name = "getMyAllReports", query = "SELECT r FROM Report AS r WHERE r.employee = :employee ORDER BY r.id DESC"),
+        @NamedQuery(name = "getMyReportsCount", query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :employee")
+})
 @Entity
 public class Report {
     @Id
@@ -53,12 +41,17 @@ public class Report {
     @Column(name = "title", length = 255, nullable = false)
     private String title;
 
-    @Column(name = "time_in", length = 255, nullable = false)
-    private String time_in;
+    //出勤時刻
+    @Column(name = "time_in_hour", length = 2, nullable = false)
+    private String time_in_hour;
+    @Column(name = "time_in_minute", length = 2, nullable = false)
+    private String time_in_minute;
 
-    @Column(name = "time_out", length = 255, nullable = false)
-    private String time_out;
-
+    //退勤時刻
+    @Column(name = "time_out_hour", length = 2, nullable = false)
+    private String time_out_hour;
+    @Column(name = "time_out_minute", length = 2, nullable = false)
+    private String time_out_minute;
 
     @Lob
     @Column(name = "content", nullable = false)
@@ -100,6 +93,38 @@ public class Report {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTime_in_minute() {
+        return time_in_minute;
+    }
+
+    public void setTime_in_minute(String time_in_minute) {
+        this.time_in_minute = time_in_minute;
+    }
+
+    public String getTime_out_minute() {
+        return time_out_minute;
+    }
+
+    public void setTime_out_minute(String time_out_minute) {
+        this.time_out_minute = time_out_minute;
+    }
+
+    public String getTime_in_hour() {
+        return time_in_hour;
+    }
+
+    public void setTime_in_hour(String time_in_hour) {
+        this.time_in_hour = time_in_hour;
+    }
+
+    public String getTime_out_hour() {
+        return time_out_hour;
+    }
+
+    public void setTime_out_hour(String time_out_hour) {
+        this.time_out_hour = time_out_hour;
     }
 
     public String getContent() {

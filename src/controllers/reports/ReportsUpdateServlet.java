@@ -34,20 +34,25 @@ public class ReportsUpdateServlet extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String _token = request.getParameter("_token");
-        if(_token != null && _token.equals(request.getSession().getId())) {
+        if (_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
 
-            Report r = em.find(Report.class, (Integer)(request.getSession().getAttribute("report_id")));
+            Report r = em.find(Report.class, (Integer) (request.getSession().getAttribute("report_id")));
 
             r.setReport_date(Date.valueOf(request.getParameter("report_date")));
             r.setTitle(request.getParameter("title"));
+            r.setTime_in_hour(String.format("%02d", Integer.parseInt(request.getParameter("time_in_hour"))));
+            r.setTime_in_minute(String.format("%02d", Integer.parseInt(request.getParameter("time_in_minute"))));
+            r.setTime_out_hour(String.format("%02d", Integer.parseInt(request.getParameter("time_out_hour"))));
+            r.setTime_out_minute(String.format("%02d", Integer.parseInt(request.getParameter("time_out_minute"))));
             r.setContent(request.getParameter("content"));
             r.setUpdated_at(new Timestamp(System.currentTimeMillis()));
 
             List<String> errors = ReportValidator.validate(r);
-            if(errors.size() > 0) {
+            if (errors.size() > 0) {
                 em.close();
 
                 request.setAttribute("_token", request.getSession().getId());
